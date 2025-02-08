@@ -1,0 +1,57 @@
+name: Check code quality
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_STORAGE_BASE_URL: 'https://localhost:3000'
+      NEXT_PUBLIC_BASE_URL: 'https://localhost:3000'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.12.0'
+
+      - name: Use pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.x.x
+          run_install: false
+
+      - name: Get pnpm store directory # pnpmのキャッシュを保存するディレクトリを取得
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache # pnpmのキャッシュを保存
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache node_modules # node_modulesをキャッシュ
+        uses: actions/cache@v4
+        id: cache_node_modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install Dependencies
+        if: steps.cache_node_modules.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile # キャッシュがヒットしない場合のみ --frozen-lockfile オプション付きでインストールしてlockfileが変更されないようにする
+
+      - name: Lint and format
+        run: pnpm lint:fix
+
+      - name: Build project
+        run: pnpm build

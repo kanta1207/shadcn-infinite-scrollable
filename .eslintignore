@@ -1,0 +1,9 @@
+node_modules
+
+# config
+.eslintrc.cjs
+.prettierrc
+tsconfig.json
+
+# build dir
+next/

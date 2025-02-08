@@ -1,0 +1,30 @@
+name: dependabot-patch-automerge
+on:
+  pull_request:
+    branches: ['develop']
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: prepare
+        id: prepare
+        uses: dependabot/fetch-metadata@v1.6.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: log update-type
+        run: |
+          echo "Update type: ${{ steps.prepare.outputs.update-type }}"
+      - name: do
+        if: ${{ steps.prepare.outputs.update-type == 'version-update:semver-patch' }}
+        run: gh pr merge --auto --merge ${{github.event.pull_request.html_url}}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
