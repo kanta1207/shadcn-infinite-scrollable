@@ -11,13 +11,11 @@ type Pokemon = {
 
 export const PokemonCardList = () => {
   const getPokemon = async (page: number) => {
-    console.log('getPokemon', page)
     const offset = (page - 1) * 20
     const url = `/api/sample?offset=${offset}`
     const res = await fetchWithOptions<{ name: string; imgUrl: string }[]>(url, {
       cache: 'force-cache'
     })
-    console.log('res', res)
     return res.data
   }
 
