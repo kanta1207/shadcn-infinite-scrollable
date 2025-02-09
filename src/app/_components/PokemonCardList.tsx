@@ -1,5 +1,5 @@
 'use client'
-import { InfiniteScrollable } from '@/components/ui/infinite-scrollable'
+import { InfiniteScrollable } from '@/components/infinite-scrollable'
 
 import { fetchWithOptions } from '../../../utils/apiBase'
 import { PokemonCard } from './PokemonCard'

@@ -39,15 +39,11 @@ export const InfiniteScrollable = <T,>({
 
   return (
     <div className={className}>
-      {items.map((item, index) =>
-        index === items.length - 1 ? (
-          <div key={index} ref={ref}>
-            {renderItem(item)}
-          </div>
-        ) : (
-          <div key={index}>{renderItem(item)}</div>
-        )
-      )}
+      {items.map((item, index) => (
+        <div key={index} ref={index === items.length - 1 ? ref : null}>
+          {renderItem(item)}
+        </div>
+      ))}
     </div>
   )
 }
