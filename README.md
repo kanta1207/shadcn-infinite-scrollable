@@ -4,7 +4,7 @@ I built this example to show how to implement infinite scroll in an application 
 
 ## What's Infinite Scroll? Why would you need it?
 
-When you need to fetch a lot of data from the server and display them, I guess pagination is the common way. But sometimes you need to display all of the data at once for some reason. In that case, infinite scroll is a good way to achieve it while keeping your application performant.
+When you need to fetch a lot of data from the server and display them, I guess pagination is the common way. But sometimes your user says they want to display all of the data at once for some reason. In that case, infinite scroll is a good way to satisfy their needs while keeping your application performant.
 
 ## Demo
 
