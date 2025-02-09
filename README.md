@@ -14,7 +14,7 @@ https://shadcn-infinite-scrollable.vercel.app/
 
 ### Intersection Observer API
 
-To implement infinite scroll, we need to somehow detect when the user has scrolled to the bottom of the page.
+To implement infinite scroll, we need to somehow detect when to fetch the next page of data.
 There are mainly two ways to do this:
 
 1. **Scroll event listeners** ... Fires when the user scrolls to the bottom of the page.
