@@ -14,7 +14,7 @@ export const PokemonCard = ({ name, imgUrl }: PokemonCardProps) => {
         <CardTitle className="text-center capitalize">{name}</CardTitle>
       </CardHeader>
       <CardContent className="flex justify-center">
-        <Image src={imgUrl} alt={name} width={150} height={150} className="object-contain" priority />
+        <Image src={imgUrl} alt={name} width={150} height={150} className="object-contain" />
       </CardContent>
     </Card>
   )
